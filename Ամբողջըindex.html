@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="hy">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17152f">
+  <title>Ոսկեվան AI — Քո անձնական ուսուցիչը</title>
+  <style>
+    :root{--bg:#101126;--panel:#1b1a39;--panel2:#24214a;--purple:#7567f5;--purple2:#9b8cff;--text:#f7f6ff;--muted:#b9b6d7;--line:#39365f}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#29245c 0%,var(--bg) 55%);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+    .wrap{max-width:980px;margin:auto;padding:24px 16px 36px}.top{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+    .logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#6557e9,#a18cff);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 28px #7567f544}
+    h1{font-size:clamp(21px,4vw,30px);margin:0}.sub{color:var(--muted);font-size:14px;margin-top:4px}
+    .hero{padding:24px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,#252151dd,#1a1936ee);margin-bottom:18px}
+    .hero h2{font-size:clamp(22px,4vw,32px);margin:0 0 9px}.hero p{color:var(--muted);margin:0;line-height:1.6}
+    .chat{border:1px solid var(--line);border-radius:22px;background:#171630eF;overflow:hidden;box-shadow:0 18px 55px #0003}
+    .chathead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .status{font-size:12px;color:#b8f4d2}.status:before{content:"";display:inline-block;width:8px;height:8px;background:#5bd69a;border-radius:50%;margin-right:7px}
+    .controls{display:flex;gap:10px;align-items:center;padding:14px 16px 0;flex-wrap:wrap}
+    select{background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:11px 13px;border-radius:12px;font:inherit;min-width:150px}
+    .messages{height:min(52vh,500px);min-height:310px;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:13px}
+    .msg{max-width:88%;padding:13px 15px;border-radius:16px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+    .bot{align-self:flex-start;background:#29264f;border:1px solid #454078}.user{align-self:flex-end;background:linear-gradient(135deg,#6155d9,#8071f5);color:white}
+    .composer{padding:14px 16px 16px;border-top:1px solid var(--line);display:flex;gap:10px}
+    textarea{flex:1;resize:vertical;min-height:50px;max-height:150px;background:#211f43;color:var(--text);border:1px solid var(--line);border-radius:14px;padding:13px;font:inherit;outline:none}
+    textarea:focus,select:focus{border-color:var(--purple2)}button{border:0;border-radius:14px;padding:0 20px;background:linear-gradient(135deg,#6759e8,#9584ff);color:white;font-weight:700;font-size:15px;cursor:pointer}
+    button:disabled{opacity:.55;cursor:not-allowed}.hint{color:var(--muted);font-size:12px;padding:0 17px 14px}
+    .error{color:#ffc4c4}.footer{text-align:center;color:#8581aa;font-size:12px;margin-top:18px}
+    @media(max-width:560px){.wrap{padding:17px 11px 25px}.hero{padding:19px}.messages{height:55vh;min-height:280px;padding:13px}.msg{max-width:95%}.composer{padding:11px}.composer button{padding:0 15px}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <div class="logo">✦</div>
+      <div><h1>Ոսկեվան AI</h1><div class="sub">Քո անձնական ուսուցիչը</div></div>
+    </header>
+    <section class="hero">
+      <h2>Սովորիր ու բացահայտիր քո գիտելիքները</h2>
+      <p>Ընտրիր դասարանդ, գրիր հարցդ և սովորիր քայլ առ քայլ։ Կարող ես հարցնել ցանկացած դպրոցական առարկայից։</p>
+    </section>
+    <section class="chat" aria-label="AI ուսուցիչ">
+      <div class="chathead"><strong>🤖 Քո AI ուսուցիչը</strong><span class="status">Պատրաստ է հարցերին</span></div>
+      <div class="controls">
+        <label for="grade">Դասարան՝</label>
+        <select id="grade">
+          <option value="1">1-ին դասարան</option><option value="2">2-րդ դասարան</option><option value="3">3-րդ դասարան</option>
+          <option value="4">4-րդ դասարան</option><option value="5">5-րդ դասարան</option><option value="6">6-րդ դասարան</option>
+          <option value="7">7-րդ դասարան</option><option value="8">8-րդ դասարան</option><option value="9" selected>9-րդ դասարան</option>
+          <option value="10">10-րդ դասարան</option><option value="11">11-րդ դասարան</option><option value="12">12-րդ դասարան</option>
+        </select>
+      </div>
+      <div class="messages" id="messages" aria-live="polite">
+        <div class="msg bot">Բարև՛։ Ես Ոսկեվան AI-ն եմ՝ քո անձնական ուսուցիչը։ 😊
+Գրիր՝ ինչ թեմա ես ուզում սովորել, և ես կբացատրեմ պարզ ու հասկանալի ձևով։</div>
+      </div>
+      <form class="composer" id="chatForm">
+        <textarea id="question" placeholder="Գրիր քո հարցը..." required rows="1"></textarea>
+        <button id="send" type="submit">Ուղարկել</button>
+      </form>
+      <div class="hint">Խորհուրդ․ գրիր նաև՝ ինչն է դժվար քեզ համար, որ բացատրեմ ավելի պարզ։</div>
+    </section>
+    <div class="footer">Ոսկեվան AI · Սովորելն ավելի հեշտ է միասին</div>
+  </main>
+<script>
+(() => {
+  const form = document.getElementById("chatForm");
+  const input = document.getElementById("question");
+  const messages = document.getElementById("messages");
+  const send = document.getElementById("send");
+  const grade = document.getElementById("grade");
+
+  function addMessage(text, who, extraClass="") {
+    const node = document.createElement("div");
+    node.className = `msg ${who} ${extraClass}`;
+    node.textContent = text;
+    messages.appendChild(node);
+    messages.scrollTop = messages.scrollHeight;
+    return node;
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const message = input.value.trim();
+    if (!message || send.disabled) return;
+
+    addMessage(message, "user");
+    input.value = "";
+    send.disabled = true;
+    send.textContent = "Սպասիր…";
+    const waiting = addMessage("Մտածում եմ…", "bot");
+
+    try {
+      const response = await fetch("/.netlify/functions/tutor", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message, grade: grade.value})
+      });
+
+      let data;
+      try { data = await response.json(); }
+      catch { throw new Error("Սերվերը հասկանալի պատասխան չուղարկեց։ Փորձիր մի փոքր ուշ։"); }
+
+      if (!response.ok) {
+        throw new Error(data.error || `Սերվերի սխալ (${response.status})`);
+      }
+      if (!data.reply || typeof data.reply !== "string") {
+        throw new Error("Ուսուցիչը պատասխան չվերադարձրեց։");
+      }
+      waiting.textContent = data.reply;
+    } catch (error) {
+      waiting.textContent = "Չկարողացա կապ հաստատել ուսուցչի հետ։\nՊատճառը՝ " + (error.message || "անհայտ սխալ");
+      waiting.classList.add("error");
+    } finally {
+      send.disabled = false;
+      send.textContent = "Ուղարկել";
+      input.focus();
+      messages.scrollTop = messages.scrollHeight;
+    }
+  });
+})();
+</script>
+</body>
+</html>
